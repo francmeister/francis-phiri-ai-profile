@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Briefcase, Download, ArrowRight } from "lucide-react";
+import { Briefcase, Download, ArrowRight, ShieldCheck, BadgeCheck } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -132,6 +132,60 @@ function CareerPage() {
           ))}
         </div>
       </section>
+
+      {/* PROFESSIONAL MEMBERSHIPS */}
+      <section className="border-t border-border bg-navy-deep/40">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              <ShieldCheck size={12} /> Professional Memberships
+            </span>
+            <h2 className="mt-3 font-display text-2xl font-bold sm:text-3xl">
+              Registered & accountable to <span className="text-gradient-teal">professional bodies</span>
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Formally registered with South Africa's engineering and ICT professional bodies, and bound by their codes of conduct.
+            </p>
+          </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border border-primary/30 bg-card-elevated p-6 shadow-card">
+              <div className="flex items-start gap-4">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-teal text-primary-foreground shadow-glow">
+                  <BadgeCheck size={20} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-display text-lg font-semibold">Engineering Council of South Africa (ECSA)</h3>
+                  <p className="mt-1 text-sm text-primary">Candidate Engineer · Reg. No. 2025209354</p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Registered on 10 July 2025 under the Engineering Profession Act 46 of 2000 — the formal pathway toward Professional Engineer (Pr.Eng) registration.
+                  </p>
+                  <Link to="/documents" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+                    View certificate <ArrowRight size={12} />
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-primary/30 bg-card-elevated p-6 shadow-card">
+              <div className="flex items-start gap-4">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-teal text-primary-foreground shadow-glow">
+                  <BadgeCheck size={20} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-display text-lg font-semibold">Institute of IT Professionals South Africa (IITPSA)</h3>
+                  <p className="mt-1 text-sm text-primary">Associate Member · No. 20250811770 · Valid to 31 Aug 2026</p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    SAQA-recognised professional body (SAQA ID 815). Members are bound by IITPSA's Code of Ethics covering integrity, privacy, confidentiality and public interest.
+                  </p>
+                  <Link to="/documents" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+                    View certificate <ArrowRight size={12} />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <div className="rounded-2xl border border-primary/30 bg-card-elevated p-8 text-center shadow-card">

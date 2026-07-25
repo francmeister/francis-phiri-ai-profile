@@ -56,6 +56,10 @@ Format: short paragraphs or tight bullet points. Reply in the same language as t
 ### Tech stack
 Python, SQL, C# (ASP.NET Web APIs), JavaScript/TypeScript. Airbyte, Metabase, Power BI, Kafka, Docker, Git, n8n, OpenAI/Claude tooling. Deep RL frameworks for research.
 
+### Professional memberships
+- Engineering Council of South Africa (ECSA) — Candidate Engineer, Reg. No. 2025209354 (registered 10 July 2025), under the Engineering Profession Act 46 of 2000. This is the formal pathway toward Professional Engineer (Pr.Eng) registration.
+- Institute of Information Technology Professionals South Africa (IITPSA) — Associate Member, Membership No. 20250811770, valid until 31 Aug 2026. IITPSA is a SAQA-recognised professional body (SAQA ID 815); members are bound by a formal Code of Ethics.
+
 ### Contact
 Email: francophiri97@gmail.com · Phone: +27 74 538 5295 · LinkedIn: linkedin.com/in/francis-phiri-004b07111`;
 
