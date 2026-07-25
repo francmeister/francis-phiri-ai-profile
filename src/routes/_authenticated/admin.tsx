@@ -168,7 +168,7 @@ function ProfilePanel() {
     setDraft({ ...draft, title: "", content: "" });
     qc.invalidateQueries({ queryKey: ["admin-profile"] });
   }
-  async function save(id: string, patch: Record<string, unknown>) {
+  async function save(id: string, patch: Record<string, any>) {
     await supabase.from("profile_content").update(patch).eq("id", id);
     qc.invalidateQueries({ queryKey: ["admin-profile"] });
   }
@@ -235,7 +235,7 @@ function EditableRow({
     content: string;
     sort_order: number | null;
   };
-  onSave: (id: string, patch: Record<string, unknown>) => void;
+  onSave: (id: string, patch: Record<string, any>) => void;
   onDelete: (id: string) => void;
 }) {
   const [title, setTitle] = useState(item.title);
@@ -390,7 +390,7 @@ function DocumentsPanel() {
     setDraft({ category: "cv", title: "", description: "", file_url: "" });
     qc.invalidateQueries({ queryKey: ["admin-documents"] });
   }
-  async function save(id: string, patch: Record<string, unknown>) {
+  async function save(id: string, patch: Record<string, any>) {
     await supabase.from("documents").update(patch).eq("id", id);
     qc.invalidateQueries({ queryKey: ["admin-documents"] });
   }
@@ -456,7 +456,7 @@ function DocRow({
     description: string | null;
     file_url: string | null;
   };
-  onSave: (id: string, patch: Record<string, unknown>) => void;
+  onSave: (id: string, patch: Record<string, any>) => void;
   onDelete: (id: string) => void;
 }) {
   const [title, setTitle] = useState(doc.title);
