@@ -33,7 +33,7 @@ const SUGGESTIONS = [
 
 function ChatPage() {
   const [messages, setMessages] = useState<Msg[]>([
-    { role: "assistant", content: "Hello — I'm Ask Francis AI. Ask me anything about Francis's career, research, tools or PhD readiness. I answer factually from his profile." },
+    { role: "assistant", content: "Hi, I'm Francis — thanks for stopping by. Ask me anything about my career, research, tools, or PhD plans and I'll answer directly." },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
