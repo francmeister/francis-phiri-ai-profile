@@ -72,31 +72,46 @@ export type Database = {
       }
       contact_messages: {
         Row: {
+          confirmation_error: string | null
+          confirmation_sent_at: string | null
           created_at: string
           email: string
           id: string
           message: string
           name: string
+          notification_error: string | null
+          notification_sent_at: string | null
           organisation: string | null
           reason: string | null
+          resend_count: number
         }
         Insert: {
+          confirmation_error?: string | null
+          confirmation_sent_at?: string | null
           created_at?: string
           email: string
           id?: string
           message: string
           name: string
+          notification_error?: string | null
+          notification_sent_at?: string | null
           organisation?: string | null
           reason?: string | null
+          resend_count?: number
         }
         Update: {
+          confirmation_error?: string | null
+          confirmation_sent_at?: string | null
           created_at?: string
           email?: string
           id?: string
           message?: string
           name?: string
+          notification_error?: string | null
+          notification_sent_at?: string | null
           organisation?: string | null
           reason?: string | null
+          resend_count?: number
         }
         Relationships: []
       }

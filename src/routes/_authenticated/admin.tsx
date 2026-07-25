@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import {
   FileText,
   HelpCircle,
@@ -12,9 +13,14 @@ import {
   Trash2,
   Save,
   BarChart3,
+  Send,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
 } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { supabase } from "@/integrations/supabase/client";
+import { resendContactEmail } from "@/lib/contact-resend.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -578,6 +584,10 @@ function ChatsPanel() {
 /* ---------- Contact ---------- */
 function ContactPanel() {
   const qc = useQueryClient();
+  const resend = useServerFn(resendContactEmail);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null);
+
   const { data: items } = useQuery({
     queryKey: ["admin-contact"],
     queryFn: async () => {
@@ -588,41 +598,187 @@ function ContactPanel() {
       return data ?? [];
     },
   });
+
   async function del(id: string) {
     if (!confirm("Delete message?")) return;
     await supabase.from("contact_messages").delete().eq("id", id);
+    if (openId === id) setOpenId(null);
     qc.invalidateQueries({ queryKey: ["admin-contact"] });
   }
+
+  async function doResend(id: string, kind: "notification" | "confirmation") {
+    setBusy(`${id}:${kind}`);
+    try {
+      const res = await resend({ data: { id, kind } });
+      if (res.sent) {
+        alert(`${kind === "notification" ? "Notification" : "Confirmation"} resent.`);
+      } else {
+        alert(`Not sent: ${res.error ?? "unknown reason"}`);
+      }
+    } catch (err: any) {
+      alert(`Resend failed: ${err?.message ?? err}`);
+    } finally {
+      setBusy(null);
+      qc.invalidateQueries({ queryKey: ["admin-contact"] });
+    }
+  }
+
+  const list = (items ?? []) as any[];
+  const attention = list.filter((m) => !m.notification_sent_at || m.notification_error).length;
+  const selected = list.find((x) => x.id === openId);
+
   return (
-    <div className="space-y-3">
-      {(items ?? []).map((m) => (
-        <div key={m.id} className="rounded-xl border border-border bg-card-elevated p-4">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <div className="font-semibold">
-                {m.name}{" "}
-                <a href={`mailto:${m.email}`} className="text-primary hover:underline">
-                  &lt;{m.email}&gt;
-                </a>
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {m.organisation || "—"} · {m.reason || "—"} ·{" "}
-                {new Date(m.created_at).toLocaleString()}
-              </div>
-            </div>
-            <button
-              onClick={() => del(m.id)}
-              className="inline-flex items-center gap-2 rounded-md border border-destructive/40 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/10"
-            >
-              <Trash2 size={12} /> Delete
-            </button>
+    <div className="grid gap-4 md:grid-cols-[380px_1fr]">
+      <div className="max-h-[75vh] overflow-y-auto rounded-xl border border-border bg-card-elevated">
+        <div className="sticky top-0 border-b border-border bg-card-elevated/95 px-4 py-3 backdrop-blur">
+          <div className="text-sm font-semibold">Inbox</div>
+          <div className="text-xs text-muted-foreground">
+            {list.length} total · {attention} needing attention
           </div>
-          <p className="mt-3 whitespace-pre-wrap text-sm">{m.message}</p>
         </div>
-      ))}
-      {(items ?? []).length === 0 && (
-        <div className="text-sm text-muted-foreground">No contact messages yet.</div>
-      )}
+        {list.map((m) => {
+          const active = openId === m.id;
+          const ok = !!m.notification_sent_at && !m.notification_error;
+          return (
+            <button
+              key={m.id}
+              onClick={() => setOpenId(m.id)}
+              className={`block w-full border-b border-border px-4 py-3 text-left text-sm hover:bg-primary/5 ${
+                active ? "bg-primary/10" : ""
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <div className="min-w-0 truncate font-medium">{m.name}</div>
+                <span
+                  className={`inline-block h-2 w-2 shrink-0 rounded-full ${
+                    ok ? "bg-emerald-400" : "bg-amber-400"
+                  }`}
+                />
+              </div>
+              <div className="truncate text-xs text-muted-foreground">{m.email}</div>
+              <div className="mt-1 truncate text-xs text-muted-foreground">
+                {m.reason || "—"} · {new Date(m.created_at).toLocaleDateString()}
+              </div>
+            </button>
+          );
+        })}
+        {list.length === 0 && (
+          <div className="p-4 text-sm text-muted-foreground">No contact messages yet.</div>
+        )}
+      </div>
+
+      <div className="rounded-xl border border-border bg-card-elevated p-5">
+        {!selected && (
+          <div className="text-sm text-muted-foreground">Select a message from the inbox…</div>
+        )}
+        {selected && (
+          <div className="space-y-5">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="font-display text-xl font-bold">{selected.name}</div>
+                <a
+                  href={`mailto:${selected.email}`}
+                  className="text-sm text-primary hover:underline"
+                >
+                  {selected.email}
+                </a>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  {selected.organisation || "—"} · {selected.reason || "—"} ·{" "}
+                  {new Date(selected.created_at).toLocaleString()}
+                </div>
+              </div>
+              <button
+                onClick={() => del(selected.id)}
+                className="inline-flex items-center gap-2 rounded-md border border-destructive/40 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/10"
+              >
+                <Trash2 size={12} /> Delete
+              </button>
+            </div>
+
+            <div className="rounded-lg border border-border bg-background/60 p-4 text-sm">
+              <div className="mb-2 text-xs uppercase tracking-wide text-muted-foreground">
+                Message
+              </div>
+              <p className="whitespace-pre-wrap">{selected.message}</p>
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              <EmailStatusCard
+                title="Notification to Francis"
+                subtitle="francophiri97@gmail.com"
+                sentAt={selected.notification_sent_at}
+                error={selected.notification_error}
+                busy={busy === `${selected.id}:notification`}
+                onResend={() => doResend(selected.id, "notification")}
+              />
+              <EmailStatusCard
+                title="Confirmation to sender"
+                subtitle={selected.email}
+                sentAt={selected.confirmation_sent_at}
+                error={selected.confirmation_error}
+                busy={busy === `${selected.id}:confirmation`}
+                onResend={() => doResend(selected.id, "confirmation")}
+              />
+            </div>
+
+            {selected.resend_count > 0 && (
+              <div className="text-xs text-muted-foreground">
+                Manual resends triggered: {selected.resend_count}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function EmailStatusCard({
+  title,
+  subtitle,
+  sentAt,
+  error,
+  busy,
+  onResend,
+}: {
+  title: string;
+  subtitle: string;
+  sentAt: string | null;
+  error: string | null;
+  busy: boolean;
+  onResend: () => void;
+}) {
+  const ok = !!sentAt && !error;
+  const pending = !sentAt && !error;
+  return (
+    <div className="rounded-lg border border-border bg-background/60 p-4">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="text-sm font-semibold">{title}</div>
+          <div className="truncate text-xs text-muted-foreground">{subtitle}</div>
+        </div>
+        {ok ? (
+          <CheckCircle2 size={16} className="text-emerald-400" />
+        ) : error ? (
+          <AlertCircle size={16} className="text-destructive" />
+        ) : (
+          <Clock size={16} className="text-amber-400" />
+        )}
+      </div>
+      <div className="mt-3 text-xs">
+        {ok && (
+          <span className="text-emerald-300">Sent {new Date(sentAt!).toLocaleString()}</span>
+        )}
+        {error && <span className="text-destructive">Failed: {error}</span>}
+        {pending && <span className="text-muted-foreground">Not sent yet</span>}
+      </div>
+      <button
+        onClick={onResend}
+        disabled={busy}
+        className="mt-3 inline-flex items-center gap-2 rounded-md bg-primary/15 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/25 disabled:opacity-50"
+      >
+        <Send size={12} /> {busy ? "Sending…" : ok ? "Resend" : "Retry"}
+      </button>
     </div>
   );
 }
