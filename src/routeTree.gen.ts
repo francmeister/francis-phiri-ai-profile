@@ -18,6 +18,7 @@ import { Route as AcademicRouteImport } from './routes/academic'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiPublicDocumentRequestRouteImport } from './routes/api/public/document-request'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
@@ -67,6 +68,12 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicDocumentRequestRoute =
+  ApiPublicDocumentRequestRouteImport.update({
+    id: '/api/public/document-request',
+    path: '/api/public/document-request',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   id: '/api/public/contact',
   path: '/api/public/contact',
@@ -99,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/documents': typeof DocumentsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/document-request': typeof ApiPublicDocumentRequestRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -113,6 +121,7 @@ export interface FileRoutesByTo {
   '/documents': typeof DocumentsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/document-request': typeof ApiPublicDocumentRequestRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -129,6 +138,7 @@ export interface FileRoutesById {
   '/documents': typeof DocumentsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/document-request': typeof ApiPublicDocumentRequestRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/admin'
     | '/api/public/contact'
+    | '/api/public/document-request'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/admin'
     | '/api/public/contact'
+    | '/api/public/document-request'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -174,6 +186,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/_authenticated/admin'
     | '/api/public/contact'
+    | '/api/public/document-request'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -189,6 +202,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DocumentsRoute: typeof DocumentsRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
+  ApiPublicDocumentRequestRoute: typeof ApiPublicDocumentRequestRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -259,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/document-request': {
+      id: '/api/public/document-request'
+      path: '/api/public/document-request'
+      fullPath: '/api/public/document-request'
+      preLoaderRoute: typeof ApiPublicDocumentRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/contact': {
       id: '/api/public/contact'
       path: '/api/public/contact'
@@ -311,6 +332,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DocumentsRoute: DocumentsRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
+  ApiPublicDocumentRequestRoute: ApiPublicDocumentRequestRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
