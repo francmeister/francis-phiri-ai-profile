@@ -169,7 +169,7 @@ function ProfilePanel() {
     qc.invalidateQueries({ queryKey: ["admin-profile"] });
   }
   async function save(id: string, patch: Record<string, any>) {
-    await supabase.from("profile_content").update(patch).eq("id", id);
+    await supabase.from("profile_content").update(patch as never).eq("id", id);
     qc.invalidateQueries({ queryKey: ["admin-profile"] });
   }
   async function del(id: string) {
@@ -391,7 +391,7 @@ function DocumentsPanel() {
     qc.invalidateQueries({ queryKey: ["admin-documents"] });
   }
   async function save(id: string, patch: Record<string, any>) {
-    await supabase.from("documents").update(patch).eq("id", id);
+    await supabase.from("documents").update(patch as never).eq("id", id);
     qc.invalidateQueries({ queryKey: ["admin-documents"] });
   }
   async function del(id: string) {
