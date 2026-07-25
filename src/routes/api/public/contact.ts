@@ -27,10 +27,10 @@ export const Route = createFileRoute('/api/public/contact')({
         }
         const data = parsed.data
 
-        // Insert into DB via service role (public form, no user session).
+        const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+
         let submissionId: string | undefined
         try {
-          const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
           const { data: inserted, error } = await supabaseAdmin
             .from('contact_messages')
             .insert({
@@ -52,24 +52,46 @@ export const Route = createFileRoute('/api/public/contact')({
         const idBase = submissionId ?? crypto.randomUUID()
 
         // Notification to Francis
+        let notificationError: string | null = null
+        let notificationSentAt: string | null = null
         try {
-          await sendTemplateEmail('contact-notification', 'francophiri97@gmail.com', {
+          const result = await sendTemplateEmail('contact-notification', 'francophiri97@gmail.com', {
             templateData: data,
             idempotencyKey: `contact-notify-${idBase}`,
             replyTo: data.email,
           })
-        } catch (err) {
+          if (result.sent) notificationSentAt = new Date().toISOString()
+          else notificationError = `not sent: ${result.reason}`
+        } catch (err: any) {
+          notificationError = err?.message ?? String(err)
           console.error('contact-notification send failed', err)
         }
 
         // Confirmation to sender
+        let confirmationError: string | null = null
+        let confirmationSentAt: string | null = null
         try {
-          await sendTemplateEmail('contact-confirmation', data.email, {
+          const result = await sendTemplateEmail('contact-confirmation', data.email, {
             templateData: { name: data.name, message: data.message },
             idempotencyKey: `contact-confirm-${idBase}`,
           })
-        } catch (err) {
+          if (result.sent) confirmationSentAt = new Date().toISOString()
+          else confirmationError = `not sent: ${result.reason}`
+        } catch (err: any) {
+          confirmationError = err?.message ?? String(err)
           console.error('contact-confirmation send failed', err)
+        }
+
+        if (submissionId) {
+          await supabaseAdmin
+            .from('contact_messages')
+            .update({
+              notification_sent_at: notificationSentAt,
+              notification_error: notificationError,
+              confirmation_sent_at: confirmationSentAt,
+              confirmation_error: confirmationError,
+            } as never)
+            .eq('id', submissionId)
         }
 
         return Response.json({ ok: true })
