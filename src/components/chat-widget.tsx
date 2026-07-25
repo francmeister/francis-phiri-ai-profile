@@ -19,7 +19,7 @@ export function ChatWidget() {
     {
       role: "assistant",
       content:
-        "Hi — I'm Ask Francis AI. Ask me anything about Francis's data, software or research work. I'll answer factually or point you to him directly.",
+        "Hey — I'm Francis. Ask me anything about my data, software, or research work and I'll answer directly.",
     },
   ]);
   const [input, setInput] = useState("");
