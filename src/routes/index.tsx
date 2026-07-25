@@ -112,6 +112,17 @@ function Home() {
           <Stat value="MSc" label="Wits — Electrical & Information Engineering" sub="TD3 RL for 5G MEC" />
           <Stat value="🏆" label="SATNAC 2024" sub="Second-Best Paper Award" />
         </div>
+        <div className="mx-auto max-w-6xl px-4 pb-12 sm:px-6">
+          <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
+            <span className="font-semibold text-foreground">Registered with:</span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-primary">
+              <Sparkles size={11} /> ECSA Candidate Engineer · Reg. 2025209354
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-primary">
+              <Sparkles size={11} /> IITPSA Associate Member · No. 20250811770
+            </span>
+          </div>
+        </div>
       </section>
 
       {/* CTA */}
