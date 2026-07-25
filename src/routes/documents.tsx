@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { FileText, Download, Award, GraduationCap, BookOpen } from "lucide-react";
+import { useState } from "react";
+import { FileText, Download, Award, GraduationCap, BookOpen, Mail, X, CheckCircle2 } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -28,19 +29,29 @@ const iconFor = (cat: string) => {
   }
 };
 
+type DocRow = {
+  id: string;
+  title: string;
+  description: string | null;
+  category: string;
+  file_url: string | null;
+};
+
 function DocumentsPage() {
   const { data: docs } = useQuery({
     queryKey: ["documents"],
     queryFn: async () => {
       const { data } = await supabase.from("documents").select("*").order("created_at", { ascending: true });
-      return data ?? [];
+      return (data ?? []) as DocRow[];
     },
   });
 
-  const grouped = (docs ?? []).reduce<Record<string, typeof docs>>((acc, d) => {
+  const [requesting, setRequesting] = useState<DocRow | null>(null);
+
+  const grouped = (docs ?? []).reduce<Record<string, DocRow[]>>((acc, d) => {
     (acc[d.category] ||= []).push(d);
     return acc;
-  }, {} as Record<string, typeof docs>);
+  }, {});
 
   const categoryLabel: Record<string, string> = {
     cv: "CVs",
@@ -62,6 +73,7 @@ function DocumentsPage() {
           </h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
             CVs tailored for industry and academia, MSc dissertation, and peer-reviewed publications.
+            For documents not directly downloadable, request a copy and Francis will email it to you.
           </p>
         </div>
       </section>
@@ -71,7 +83,7 @@ function DocumentsPage() {
           <div key={cat}>
             <h2 className="font-display text-2xl font-bold">{categoryLabel[cat] ?? cat}</h2>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {(items ?? []).map((d) => {
+              {items.map((d) => {
                 const Icon = iconFor(d.category);
                 const hasFile = !!d.file_url;
                 return (
@@ -85,8 +97,8 @@ function DocumentsPage() {
                         {d.description && (
                           <p className="mt-1 text-sm text-muted-foreground">{d.description}</p>
                         )}
-                        <div className="mt-4">
-                          {hasFile ? (
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {hasFile && (
                             <a
                               href={d.file_url!}
                               target="_blank"
@@ -95,11 +107,13 @@ function DocumentsPage() {
                             >
                               <Download size={14} /> Download
                             </a>
-                          ) : (
-                            <span className="inline-flex items-center gap-2 rounded-md border border-border bg-background/50 px-3 py-1.5 text-xs text-muted-foreground">
-                              Available on request — email francophiri97@gmail.com
-                            </span>
                           )}
+                          <button
+                            onClick={() => setRequesting(d)}
+                            className="inline-flex items-center gap-2 rounded-md bg-gradient-teal px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-glow hover:opacity-90"
+                          >
+                            <Mail size={14} /> Request by email
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -110,6 +124,167 @@ function DocumentsPage() {
           </div>
         ))}
       </section>
+
+      {requesting && (
+        <RequestModal doc={requesting} onClose={() => setRequesting(null)} />
+      )}
     </PageShell>
+  );
+}
+
+function RequestModal({ doc, onClose }: { doc: DocRow; onClose: () => void }) {
+  const [form, setForm] = useState({ name: "", email: "", organisation: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("sending");
+    setError(null);
+    try {
+      const res = await fetch("/api/public/document-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          documentId: doc.id,
+          documentTitle: doc.title,
+          ...form,
+        }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error ?? `Request failed (${res.status})`);
+      }
+      setStatus("done");
+    } catch (err: any) {
+      setError(err?.message ?? "Something went wrong");
+      setStatus("error");
+    }
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 grid place-items-center bg-background/80 p-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-lg rounded-2xl border border-border bg-card-elevated p-6 shadow-glow"
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="text-xs uppercase tracking-wide text-primary">Request document</div>
+            <h3 className="mt-1 font-display text-xl font-bold">{doc.title}</h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="rounded-md border border-border p-1.5 text-muted-foreground hover:text-foreground"
+            aria-label="Close"
+          >
+            <X size={16} />
+          </button>
+        </div>
+
+        {status === "done" ? (
+          <div className="mt-6 rounded-lg border border-emerald-400/30 bg-emerald-400/10 p-4 text-sm">
+            <div className="flex items-center gap-2 text-emerald-300">
+              <CheckCircle2 size={16} /> <span className="font-semibold">Request sent</span>
+            </div>
+            <p className="mt-2 text-muted-foreground">
+              Thanks {form.name || "for reaching out"} — a confirmation is on its way to{" "}
+              <b>{form.email}</b>. Francis will follow up shortly.
+            </p>
+            <button
+              onClick={onClose}
+              className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary/15 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/25"
+            >
+              Close
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={submit} className="mt-5 space-y-3">
+            <Field label="Your name" required>
+              <input
+                required
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                maxLength={200}
+                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+              />
+            </Field>
+            <Field label="Email" required>
+              <input
+                required
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                maxLength={320}
+                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+              />
+            </Field>
+            <Field label="Organisation (optional)">
+              <input
+                value={form.organisation}
+                onChange={(e) => setForm({ ...form, organisation: e.target.value })}
+                maxLength={200}
+                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+              />
+            </Field>
+            <Field label="Purpose / message (optional)">
+              <textarea
+                rows={3}
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                maxLength={2000}
+                placeholder="e.g. Reviewing your CV for a data engineering role, or requesting the dissertation for PhD supervision review."
+                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+              />
+            </Field>
+
+            {error && (
+              <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                {error}
+              </div>
+            )}
+
+            <div className="flex justify-end gap-2 pt-1">
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="inline-flex items-center gap-2 rounded-md bg-gradient-teal px-4 py-2 text-sm font-semibold text-primary-foreground shadow-glow disabled:opacity-60"
+              >
+                <Mail size={14} /> {status === "sending" ? "Sending…" : "Send request"}
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  required,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="block">
+      <span className="text-xs font-medium text-muted-foreground">
+        {label} {required && <span className="text-primary">*</span>}
+      </span>
+      <div className="mt-1">{children}</div>
+    </label>
   );
 }
