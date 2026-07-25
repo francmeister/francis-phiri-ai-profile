@@ -1,0 +1,18 @@
+
+UPDATE public.faq_items SET question = 'What data engineering experience do you have?', answer = 'I''m a full-time Junior Data Engineer at KHM Technology. I build a medallion-architecture data warehouse using SQL, Python, and Airbyte ingestion, with dimensional modelling across bronze/silver/gold layers. I integrate Metabase and Power BI, write stored procedures and triggers, and contribute to data governance and quality.' WHERE id = '94bd8315-6b74-403c-be7c-5ddeffbfcd5a';
+
+UPDATE public.faq_items SET question = 'What is your MSc research about?', answer = 'My MSc dissertation is "Machine Learning-based Computation Offloading in Energy-Harvesting 5G Networks." I applied TD3 deep reinforcement learning to 5G mobile edge computing, tackling eMBB/URLLC coexistence, energy-harvesting constraints, queueing delay, and resource allocation.' WHERE id = '4ba76796-ed5a-4892-9beb-135761c3f246';
+
+UPDATE public.faq_items SET question = 'Do you have Power BI experience?', answer = 'Yes — at KHM Technology I build and maintain Power BI (and Metabase) reports for business and marketing stakeholders, sourced from the gold layer of the warehouse.' WHERE id = 'f2b4a65e-03a2-415d-a3fa-0b17dd637109';
+
+UPDATE public.faq_items SET question = 'What projects have you built?', answer = 'A few I''m proud of: the KHM Data Warehouse and Reporting Platform, digital health systems at Best Health Solutions, institutional analytics and student-success dashboards at Wits, and an NLP-based CV shortlisting system.' WHERE id = '39d8e01f-e55c-47c5-a5a6-3bb0c1ad55b4';
+
+UPDATE public.faq_items SET question = 'Are you suitable for a PhD in federated learning or telecommunications?', answer = 'Yes. My MSc research already applies deep reinforcement learning to 5G edge computing, with two peer-reviewed publications (SATNAC 2024 — Second-Best Paper Award, and IEEE GLOBECOM 2025). My proposed PhD direction is federated and reinforcement learning for energy-efficient computation offloading in 5G/6G edge networks.' WHERE id = '8b8e5593-b9d5-4a97-98ce-c2d82acd4392';
+
+UPDATE public.faq_items SET question = 'What programming languages and tools do you use?', answer = 'I work in Python, SQL, C# (ASP.NET Web APIs), and JavaScript/TypeScript. My tools include Airbyte, Metabase, Power BI, Kafka, Docker, Git, n8n, and OpenAI/Claude agent tooling. For research I use PyTorch/TensorFlow-style deep RL frameworks.' WHERE id = '8411b0b1-3b24-4529-a2a8-e72761180041';
+
+UPDATE public.faq_items SET question = 'How can I contact you?', answer = 'The quickest ways to reach me: email francophiri97@gmail.com, phone +27 74 538 5295, or connect on LinkedIn at linkedin.com/in/francis-phiri-004b07111.' WHERE id = 'b581b0bb-017e-4bb4-8180-24b3c92063ab';
+
+UPDATE public.faq_items SET question = 'Are you registered with a professional engineering body?', answer = 'Yes — I''m registered with the Engineering Council of South Africa (ECSA) as a Candidate Engineer (Reg. No. 2025209354, registered 10 July 2025) under the Engineering Profession Act 46 of 2000. This is my formal pathway toward Professional Engineer (Pr.Eng) registration in South Africa.' WHERE id = 'd5e26fec-5a9e-403c-a5bd-528a5548038f';
+
+UPDATE public.faq_items SET question = 'Are you a member of any IT professional body?', answer = 'Yes — I''m an Associate Member of the Institute of Information Technology Professionals South Africa (IITPSA), Membership No. 20250811770, valid until 31 August 2026. IITPSA is a SAQA-recognised professional body (SAQA ID 815), and I''m bound by its formal Code of Ethics covering integrity, privacy, confidentiality, and the public interest.' WHERE id = 'e5d44f61-18ba-4699-8b5e-cdf0c8856549';
