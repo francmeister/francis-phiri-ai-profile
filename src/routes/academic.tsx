@@ -103,25 +103,63 @@ function AcademicPage() {
       <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
         <h2 className="font-display text-2xl font-bold sm:text-3xl">Publications</h2>
         <div className="mt-8 space-y-4">
-          {bySection("publication").map((p) => (
-            <div key={p.id} className="rounded-xl border border-border bg-card-elevated p-6 shadow-card">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="flex items-center gap-2 text-primary">
-                  <BookOpen size={18} />
-                  <span className="text-xs font-semibold uppercase tracking-wide">Peer-reviewed</span>
+          {bySection("publication").map((p) => {
+            const isSatnac = /satnac/i.test(p.title) || /satnac/i.test(p.content);
+            const isAward = /award/i.test(p.title) || /award/i.test(p.content);
+            return (
+              <div key={p.id} className="rounded-xl border border-border bg-card-elevated p-6 shadow-card">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="flex items-center gap-2 text-primary">
+                    <BookOpen size={18} />
+                    <span className="text-xs font-semibold uppercase tracking-wide">Peer-reviewed</span>
+                  </div>
+                  {isAward && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-teal px-3 py-1 text-xs font-semibold text-primary-foreground">
+                      <Award size={12} /> Award
+                    </span>
+                  )}
                 </div>
-                {p.title.includes("Award") && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-gradient-teal px-3 py-1 text-xs font-semibold text-primary-foreground">
-                    <Award size={12} /> Award
-                  </span>
+                <h3 className="mt-2 font-display text-lg font-semibold">{p.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{p.content}</p>
+                {isSatnac && (
+                  <a
+                    href="https://www.wits.ac.za/news/latest-news/research-news/2024/2024-10/wits-teams-clinch-coveted-satnac-challenge-awards.html"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-4 inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20"
+                  >
+                    <Award size={12} /> Read the Wits news feature on the SATNAC award →
+                  </a>
                 )}
               </div>
-              <h3 className="mt-2 font-display text-lg font-semibold">{p.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{p.content}</p>
-            </div>
-          ))}
+            );
+          })}
+        </div>
+
+        {/* Award evidence callout */}
+        <div className="mt-8 rounded-2xl border border-primary/40 bg-card-elevated p-6 shadow-glow">
+          <div className="flex items-center gap-2 text-primary">
+            <Award size={18} />
+            <span className="text-xs font-semibold uppercase tracking-wide">Award evidence</span>
+          </div>
+          <h3 className="mt-2 font-display text-lg font-semibold">
+            SATNAC 2024 — Second-Best Paper Award
+          </h3>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Featured by the University of the Witwatersrand:{" "}
+            <a
+              href="https://www.wits.ac.za/news/latest-news/research-news/2024/2024-10/wits-teams-clinch-coveted-satnac-challenge-awards.html"
+              target="_blank"
+              rel="noreferrer"
+              className="text-primary underline underline-offset-4 hover:text-primary/80"
+            >
+              Wits teams clinch coveted SATNAC Challenge Awards
+            </a>
+            .
+          </p>
         </div>
       </section>
+
 
       {/* PhD Direction */}
       <section className="mx-auto max-w-5xl px-4 pb-24 sm:px-6">
