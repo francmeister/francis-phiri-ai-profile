@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Mail, Phone, Linkedin, MapPin, Send, Loader2, CheckCircle2 } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
-import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -25,11 +24,17 @@ function ContactPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setState("loading");
-    const { error } = await supabase.from("contact_messages").insert(form);
-    if (error) setState("error");
-    else {
+    try {
+      const res = await fetch("/api/public/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("request failed");
       setState("done");
       setForm({ name: "", email: "", organisation: "", reason: "", message: "" });
+    } catch {
+      setState("error");
     }
   }
 
