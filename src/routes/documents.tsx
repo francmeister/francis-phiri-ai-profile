@@ -294,16 +294,18 @@ function RequestModal({ doc, onClose }: { doc: DocRow; onClose: () => void }) {
 }
 
 function Field({
+  id,
   label,
   required,
   children,
 }: {
+  id: string;
   label: string;
   required?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <label className="block">
+    <label htmlFor={id} className="block">
       <span className="text-xs font-medium text-muted-foreground">
         {label} {required && <span className="text-primary">*</span>}
       </span>
