@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import fpLogo from "@/assets/fp-logo.png.asset.json";
 
 const nav = [
   { to: "/", label: "Home" },
