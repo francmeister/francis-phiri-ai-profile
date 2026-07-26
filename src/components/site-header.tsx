@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import logoAsset from "@/assets/francis-phiri-logo.png.asset.json";
+
 
 const nav = [
   { to: "/", label: "Home" },
@@ -30,12 +32,16 @@ export function SiteHeader() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-2 font-display text-lg font-bold">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-teal text-primary-foreground shadow-glow">
-            FP
-          </span>
-          <span className="hidden sm:inline">Francis Phiri</span>
+        <Link to="/" className="flex items-center" aria-label="Francis Phiri — Home">
+          <img
+            src={logoAsset.url}
+            alt="Francis Phiri — Data Engineer & ML Researcher"
+            className="h-10 w-auto sm:h-12"
+            loading="eager"
+            decoding="async"
+          />
         </Link>
+
         <nav className="hidden items-center gap-1 md:flex">
           {nav.map((n) => (
             <Link
