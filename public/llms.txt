@@ -1,0 +1,13 @@
+# Francis Phiri
+
+> Data Engineer, Software Developer and Machine Learning Researcher based in Johannesburg, South Africa. Junior Data Engineer at KHM Technology; MSc from the University of the Witwatersrand; peer-reviewed publications at SATNAC 2024 (Second-Best Paper Award) and IEEE GLOBECOM 2025.
+
+Francis Phiri builds data platforms, intelligent software and research-driven technology across data engineering, software development and applied machine learning — with active research in 5G/6G edge intelligence, deep reinforcement learning and federated learning.
+
+## Pages
+- [Home](/): Overview, focus areas and highlights.
+- [Career Profile](/career): Work timeline, technical skills, professional memberships (ECSA, IITPSA).
+- [Academic Profile](/academic): MSc dissertation, research interests, publications and PhD direction.
+- [Documents](/documents): CVs, MSc dissertation, cover letter and peer-reviewed publications (request by email).
+- [Ask Francis AI](/chat): Chat with an AI assistant that answers as Francis about his career, research and fit.
+- [Contact](/contact): Email, phone, LinkedIn and contact form.
