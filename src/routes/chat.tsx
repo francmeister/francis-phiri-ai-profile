@@ -10,12 +10,14 @@ export const Route = createFileRoute("/chat")({
   head: () => ({
     meta: [
       { title: "Ask Francis AI — Chat about his career, research and fit" },
-      { name: "description", content: "Ask an AI assistant anything about Francis Phiri — his data engineering, ML research, projects, tools, publications and PhD readiness." },
+      { name: "description", content: "Ask an AI assistant anything about Francis Phiri — data engineering, ML research, projects, publications and PhD readiness." },
       { property: "og:title", content: "Ask Francis AI" },
       { property: "og:description", content: "Chat with an AI trained on Francis's career and research profile." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://francis-phiri-ai-profile.lovable.app/chat" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://francis-phiri-ai-profile.lovable.app/chat" }],
   }),
   component: ChatPage,
 });
