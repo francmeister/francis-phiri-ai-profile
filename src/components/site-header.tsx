@@ -31,8 +31,8 @@ export function SiteHeader() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-3 font-display text-lg font-bold">
-          <img src={fpLogo.url} alt="Francis Phiri logo" className="h-11 w-11 rounded-full" />
+        <Link to="/" className="flex items-center gap-4 font-display text-lg font-bold">
+          <img src={fpLogo.url} alt="Francis Phiri logo" className="h-14 w-14 rounded-full" />
           <span className="hidden sm:inline">Francis Phiri</span>
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
