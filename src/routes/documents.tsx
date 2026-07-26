@@ -13,7 +13,26 @@ export const Route = createFileRoute("/documents")({
       { property: "og:title", content: "Documents — Francis Phiri" },
       { property: "og:description", content: "CVs, dissertation, publications and cover letter." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://francis-phiri-ai-profile.lovable.app/documents" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://francis-phiri-ai-profile.lovable.app/documents" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Documents — Francis Phiri",
+          about: { "@type": "Person", name: "Francis Phiri" },
+          hasPart: [
+            { "@type": "CreativeWork", name: "MSc Dissertation — Wits" },
+            { "@type": "CreativeWork", name: "Curriculum Vitae" },
+            { "@type": "ScholarlyArticle", name: "SATNAC 2024 paper" },
+            { "@type": "ScholarlyArticle", name: "IEEE GLOBECOM 2025 paper" },
+          ],
+        }),
+      },
     ],
   }),
   component: DocumentsPage,
