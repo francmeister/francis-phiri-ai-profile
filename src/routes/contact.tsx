@@ -127,11 +127,12 @@ function ContactRow({ icon: Icon, label, value, href }: { icon: React.ComponentT
   ) : inner;
 }
 
-function Field({ label, value, onChange, type = "text", required }: { label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean }) {
+function Field({ id, label, value, onChange, type = "text", required }: { id: string; label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean }) {
   return (
     <div>
-      <label className="mb-1 block text-xs font-semibold text-muted-foreground">{label}</label>
+      <label htmlFor={id} className="mb-1 block text-xs font-semibold text-muted-foreground">{label}</label>
       <input
+        id={id}
         type={type}
         required={required}
         value={value}
