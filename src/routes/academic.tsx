@@ -11,12 +11,37 @@ export const Route = createFileRoute("/academic")({
       {
         name: "description",
         content:
-          "MSc Engineering at Wits on TD3 deep reinforcement learning for computation offloading in energy-harvesting 5G networks. Published at SATNAC 2024 and IEEE GLOBECOM 2025.",
+          "MSc Wits: TD3 deep RL for computation offloading in energy-harvesting 5G networks. SATNAC 2024 (award) & IEEE GLOBECOM 2025.",
       },
       { property: "og:title", content: "Academic — Francis Phiri" },
       { property: "og:description", content: "5G/6G, MEC, federated learning and deep RL research." },
       { property: "og:type", content: "profile" },
+      { property: "og:url", content: "https://francis-phiri-ai-profile.lovable.app/academic" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://francis-phiri-ai-profile.lovable.app/academic" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "ScholarlyArticle",
+            headline:
+              "TD3-based deep reinforcement learning for computation offloading in energy-harvesting 5G MEC networks",
+            author: { "@type": "Person", name: "Francis Phiri" },
+            isPartOf: { "@type": "PublicationEvent", name: "SATNAC 2024" },
+            award: "Second-Best Paper Award",
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "ScholarlyArticle",
+            headline: "IEEE GLOBECOM 2025 publication",
+            author: { "@type": "Person", name: "Francis Phiri" },
+            isPartOf: { "@type": "PublicationEvent", name: "IEEE GLOBECOM 2025" },
+          },
+        ]),
+      },
     ],
   }),
   component: AcademicPage,
