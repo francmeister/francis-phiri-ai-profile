@@ -11,8 +11,10 @@ export const Route = createFileRoute("/contact")({
       { property: "og:title", content: "Contact Francis Phiri" },
       { property: "og:description", content: "Email, phone and LinkedIn for Francis Phiri." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://francis-phiri-ai-profile.lovable.app/contact" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://francis-phiri-ai-profile.lovable.app/contact" }],
   }),
   component: ContactPage,
 });
