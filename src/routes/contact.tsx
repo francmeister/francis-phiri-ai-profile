@@ -11,8 +11,10 @@ export const Route = createFileRoute("/contact")({
       { property: "og:title", content: "Contact Francis Phiri" },
       { property: "og:description", content: "Email, phone and LinkedIn for Francis Phiri." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://francis-phiri-ai-profile.lovable.app/contact" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://francis-phiri-ai-profile.lovable.app/contact" }],
   }),
   component: ContactPage,
 });
@@ -60,12 +62,13 @@ function ContactPage() {
         </div>
 
         <form onSubmit={submit} className="space-y-3 rounded-2xl border border-border bg-card-elevated p-6 shadow-card">
-          <Field label="Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
-          <Field label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
-          <Field label="Organisation" value={form.organisation} onChange={(v) => setForm({ ...form, organisation: v })} />
+          <Field id="c-name" label="Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
+          <Field id="c-email" label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
+          <Field id="c-org" label="Organisation" value={form.organisation} onChange={(v) => setForm({ ...form, organisation: v })} />
           <div>
-            <label className="mb-1 block text-xs font-semibold text-muted-foreground">Reason</label>
+            <label htmlFor="c-reason" className="mb-1 block text-xs font-semibold text-muted-foreground">Reason</label>
             <select
+              id="c-reason"
               value={form.reason}
               onChange={(e) => setForm({ ...form, reason: e.target.value })}
               className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
@@ -78,8 +81,9 @@ function ContactPage() {
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-muted-foreground">Message</label>
+            <label htmlFor="c-message" className="mb-1 block text-xs font-semibold text-muted-foreground">Message</label>
             <textarea
+              id="c-message"
               required
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
@@ -123,11 +127,12 @@ function ContactRow({ icon: Icon, label, value, href }: { icon: React.ComponentT
   ) : inner;
 }
 
-function Field({ label, value, onChange, type = "text", required }: { label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean }) {
+function Field({ id, label, value, onChange, type = "text", required }: { id: string; label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean }) {
   return (
     <div>
-      <label className="mb-1 block text-xs font-semibold text-muted-foreground">{label}</label>
+      <label htmlFor={id} className="mb-1 block text-xs font-semibold text-muted-foreground">{label}</label>
       <input
+        id={id}
         type={type}
         required={required}
         value={value}

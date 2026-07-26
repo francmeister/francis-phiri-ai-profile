@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /auth
+
+Sitemap: https://francis-phiri-ai-profile.lovable.app/sitemap.xml

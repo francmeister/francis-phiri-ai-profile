@@ -5,16 +5,44 @@ import { PageShell } from "@/components/page-shell";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Francis Phiri — Data Engineer, Software Developer, ML Researcher" },
+      { title: "Francis Phiri — Data Engineer & ML Researcher" },
       {
         name: "description",
         content:
-          "Francis Phiri builds data platforms, intelligent software and research-driven technology. Junior Data Engineer at KHM Technology, MSc Wits, published at SATNAC 2024 and IEEE GLOBECOM 2025.",
+          "Francis Phiri — Data Engineer, Software Developer and ML Researcher. Junior Data Engineer at KHM Technology; MSc Wits; SATNAC 2024 & IEEE GLOBECOM 2025.",
       },
       { property: "og:title", content: "Francis Phiri — Data Engineer & ML Researcher" },
       { property: "og:description", content: "Data platforms, intelligent systems, and 5G/6G edge-intelligence research." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://francis-phiri-ai-profile.lovable.app/" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://francis-phiri-ai-profile.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Francis Phiri",
+          jobTitle: "Data Engineer, Software Developer, Machine Learning Researcher",
+          url: "https://francis-phiri-ai-profile.lovable.app/",
+          email: "mailto:francophiri97@gmail.com",
+          address: { "@type": "PostalAddress", addressLocality: "Johannesburg", addressCountry: "ZA" },
+          alumniOf: { "@type": "CollegeOrUniversity", name: "University of the Witwatersrand" },
+          worksFor: { "@type": "Organization", name: "KHM Technology" },
+          sameAs: ["https://linkedin.com/in/francis-phiri-004b07111"],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Francis Phiri",
+          url: "https://francis-phiri-ai-profile.lovable.app/",
+        }),
+      },
     ],
   }),
   component: Home,
@@ -41,6 +69,7 @@ function Home() {
             </span>
             <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] sm:text-6xl md:text-7xl">
               Francis <span className="text-gradient-teal">Phiri</span>
+              <span className="sr-only"> — Data Engineer & Machine Learning Researcher</span>
             </h1>
             <p className="mt-4 text-lg font-semibold text-primary sm:text-xl">
               Data Engineer · Software Developer · Machine Learning Researcher

@@ -13,7 +13,26 @@ export const Route = createFileRoute("/documents")({
       { property: "og:title", content: "Documents — Francis Phiri" },
       { property: "og:description", content: "CVs, dissertation, publications and cover letter." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://francis-phiri-ai-profile.lovable.app/documents" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://francis-phiri-ai-profile.lovable.app/documents" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Documents — Francis Phiri",
+          about: { "@type": "Person", name: "Francis Phiri" },
+          hasPart: [
+            { "@type": "CreativeWork", name: "MSc Dissertation — Wits" },
+            { "@type": "CreativeWork", name: "Curriculum Vitae" },
+            { "@type": "ScholarlyArticle", name: "SATNAC 2024 paper" },
+            { "@type": "ScholarlyArticle", name: "IEEE GLOBECOM 2025 paper" },
+          ],
+        }),
+      },
     ],
   }),
   component: DocumentsPage,
@@ -203,8 +222,9 @@ function RequestModal({ doc, onClose }: { doc: DocRow; onClose: () => void }) {
           </div>
         ) : (
           <form onSubmit={submit} className="mt-5 space-y-3">
-            <Field label="Your name" required>
+            <Field id="dr-name" label="Your name" required>
               <input
+                id="dr-name"
                 required
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -212,8 +232,9 @@ function RequestModal({ doc, onClose }: { doc: DocRow; onClose: () => void }) {
                 className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
               />
             </Field>
-            <Field label="Email" required>
+            <Field id="dr-email" label="Email" required>
               <input
+                id="dr-email"
                 required
                 type="email"
                 value={form.email}
@@ -222,16 +243,18 @@ function RequestModal({ doc, onClose }: { doc: DocRow; onClose: () => void }) {
                 className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
               />
             </Field>
-            <Field label="Organisation (optional)">
+            <Field id="dr-org" label="Organisation (optional)">
               <input
+                id="dr-org"
                 value={form.organisation}
                 onChange={(e) => setForm({ ...form, organisation: e.target.value })}
                 maxLength={200}
                 className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
               />
             </Field>
-            <Field label="Purpose / message (optional)">
+            <Field id="dr-msg" label="Purpose / message (optional)">
               <textarea
+                id="dr-msg"
                 rows={3}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
@@ -271,16 +294,18 @@ function RequestModal({ doc, onClose }: { doc: DocRow; onClose: () => void }) {
 }
 
 function Field({
+  id,
   label,
   required,
   children,
 }: {
+  id: string;
   label: string;
   required?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <label className="block">
+    <label htmlFor={id} className="block">
       <span className="text-xs font-medium text-muted-foreground">
         {label} {required && <span className="text-primary">*</span>}
       </span>

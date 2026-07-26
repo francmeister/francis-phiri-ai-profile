@@ -11,13 +11,15 @@ export const Route = createFileRoute("/career")({
       {
         name: "description",
         content:
-          "Career profile: Junior Data Engineer at KHM Technology building medallion data warehouses, plus prior software and analytics roles at Wits and Best Health Solutions.",
+          "Career profile: Junior Data Engineer at KHM Technology building medallion data warehouses, plus prior software and analytics roles.",
       },
       { property: "og:title", content: "Career — Francis Phiri" },
       { property: "og:description", content: "Data engineering, software development and ML experience." },
       { property: "og:type", content: "profile" },
+      { property: "og:url", content: "https://francis-phiri-ai-profile.lovable.app/career" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://francis-phiri-ai-profile.lovable.app/career" }],
   }),
   component: CareerPage,
 });
