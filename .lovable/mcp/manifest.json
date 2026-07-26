@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "sdk_version": "0.24.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "francis-phiri-mcp",
+      "version": "0.1.0",
+      "title": "Francis Phiri — Profile MCP"
+    },
+    "tools": [
+      {
+        "name": "get_profile",
+        "title": "Get Francis Phiri's profile",
+        "description": "Returns Francis Phiri's bio, current role, location, contact details, and professional memberships (ECSA, IITPSA).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_experience",
+        "title": "Get work experience and technical skills",
+        "description": "Returns Francis Phiri's work timeline, day-to-day responsibilities, selected projects, and technical stack.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_research",
+        "title": "Get academic and research profile",
+        "description": "Returns Francis Phiri's MSc dissertation summary, research interests, peer-reviewed publications, and proposed PhD direction.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_documents",
+        "title": "List available documents",
+        "description": "Lists documents (CVs, MSc dissertation, publications, professional-body certificates) that can be requested from Francis by email.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "ask_francis",
+        "title": "Ask Francis a question",
+        "description": "Ask Francis Phiri a natural-language question about his career, research, skills, publications, or fit for a role/programme. Answers in the first person from his verified profile.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 2000,
+              "description": "The question to ask Francis."
+            }
+          },
+          "required": [
+            "question"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
