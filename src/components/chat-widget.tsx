@@ -150,6 +150,7 @@ export function ChatWidget() {
             />
             <button
               type="submit"
+              aria-label="Send message"
               disabled={loading || !input.trim()}
               className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-teal text-primary-foreground disabled:opacity-50"
             >
