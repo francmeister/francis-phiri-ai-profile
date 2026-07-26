@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ChatRouteImport } from './routes/chat'
@@ -24,6 +25,11 @@ import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/l
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocumentsRoute = DocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRoute
   '/contact': typeof ContactRoute
   '/documents': typeof DocumentsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/document-request': typeof ApiPublicDocumentRequestRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatRoute
   '/contact': typeof ContactRoute
   '/documents': typeof DocumentsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/document-request': typeof ApiPublicDocumentRequestRoute
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/chat': typeof ChatRoute
   '/contact': typeof ContactRoute
   '/documents': typeof DocumentsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/document-request': typeof ApiPublicDocumentRequestRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/contact'
     | '/documents'
+    | '/sitemap.xml'
     | '/admin'
     | '/api/public/contact'
     | '/api/public/document-request'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/contact'
     | '/documents'
+    | '/sitemap.xml'
     | '/admin'
     | '/api/public/contact'
     | '/api/public/document-request'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/contact'
     | '/documents'
+    | '/sitemap.xml'
     | '/_authenticated/admin'
     | '/api/public/contact'
     | '/api/public/document-request'
@@ -201,6 +213,7 @@ export interface RootRouteChildren {
   ChatRoute: typeof ChatRoute
   ContactRoute: typeof ContactRoute
   DocumentsRoute: typeof DocumentsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
   ApiPublicDocumentRequestRoute: typeof ApiPublicDocumentRequestRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
@@ -210,6 +223,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/documents': {
       id: '/documents'
       path: '/documents'
@@ -331,6 +351,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRoute: ChatRoute,
   ContactRoute: ContactRoute,
   DocumentsRoute: DocumentsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
   ApiPublicDocumentRequestRoute: ApiPublicDocumentRequestRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
