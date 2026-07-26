@@ -86,6 +86,7 @@ function AcademicPage() {
 
       {/* MSc + Dissertation */}
       <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
+        <h2 className="mb-6 font-display text-2xl font-bold sm:text-3xl">Education & Research</h2>
         <div className="grid gap-6 md:grid-cols-2">
           {bySection("academic").map((a) => (
             <div key={a.id} className="rounded-2xl border border-border bg-card-elevated p-6 shadow-card">
