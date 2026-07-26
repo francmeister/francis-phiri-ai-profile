@@ -62,12 +62,13 @@ function ContactPage() {
         </div>
 
         <form onSubmit={submit} className="space-y-3 rounded-2xl border border-border bg-card-elevated p-6 shadow-card">
-          <Field label="Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
-          <Field label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
-          <Field label="Organisation" value={form.organisation} onChange={(v) => setForm({ ...form, organisation: v })} />
+          <Field id="c-name" label="Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
+          <Field id="c-email" label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
+          <Field id="c-org" label="Organisation" value={form.organisation} onChange={(v) => setForm({ ...form, organisation: v })} />
           <div>
-            <label className="mb-1 block text-xs font-semibold text-muted-foreground">Reason</label>
+            <label htmlFor="c-reason" className="mb-1 block text-xs font-semibold text-muted-foreground">Reason</label>
             <select
+              id="c-reason"
               value={form.reason}
               onChange={(e) => setForm({ ...form, reason: e.target.value })}
               className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
@@ -80,8 +81,9 @@ function ContactPage() {
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-muted-foreground">Message</label>
+            <label htmlFor="c-message" className="mb-1 block text-xs font-semibold text-muted-foreground">Message</label>
             <textarea
+              id="c-message"
               required
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
