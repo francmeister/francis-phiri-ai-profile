@@ -69,6 +69,7 @@ function Home() {
             </span>
             <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] sm:text-6xl md:text-7xl">
               Francis <span className="text-gradient-teal">Phiri</span>
+              <span className="sr-only"> — Data Engineer & Machine Learning Researcher</span>
             </h1>
             <p className="mt-4 text-lg font-semibold text-primary sm:text-xl">
               Data Engineer · Software Developer · Machine Learning Researcher
